@@ -1,4 +1,3 @@
-TEST
 
 # Webpack Starter Kit
 
