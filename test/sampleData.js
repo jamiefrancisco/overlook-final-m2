@@ -24,6 +24,5 @@ export const sampleData =
     {"id": "5fwrgu4i7k55hl6t9", "userID": 2, "date": "2023/02/14", "roomNumber": 2},
     {"id": "5fwrgu4i7k55hl6ta", "userID": 3, "date": "2023/02/18", "roomNumber": 3},
     {"id": "5fwrgu4i7k55hl6tb", "userID": 4, "date": "2023/02/20", "roomNumber": 4},
-    {"id": "5fwrgu4i7k55hl6tc", "userID": 5, "date": "2023/02/22", "roomNumber": 5}
   ]
 }
