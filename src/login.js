@@ -2,10 +2,9 @@ function validateUsernameAndGetId(username) {
   const usernamePrefix = 'customer';
   if (username.startsWith(usernamePrefix) && username.length === usernamePrefix.length + 2) {
     const customerId = parseInt(username.slice(usernamePrefix.length), 10);
-    // The customerId should be returned regardless of whether it exists in the data
     return customerId;
   }
-  return null; // Return null if the username is invalid
+  return null;
 }
 
 function validatePassword(password) {

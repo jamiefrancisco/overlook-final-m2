@@ -32,24 +32,31 @@
       </form>
     </section>
 
-    <section class="user-dashboard">
-      <h2>Total Spent</h2>
+    <section class="user-dashboard hidden">
+      <h2 class="total-spent">Total Spent: $0</h2>
       <div class="dashboard-actions">
         <button class="search-rooms-btn">Search for More Rooms</button>
         <button class="logout-btn">Log Out</button>
       </div>
       <div class="bookings-container">
         <section class="upcoming-bookings">
-          <h2>Upcoming Bookings</h2>
-        
+          <h3>Upcoming Bookings</h3>
+          <div id="upcoming-bookings-list">
+            <!-- Upcoming bookings will be dynamically inserted here -->
+          </div>
         </section>
         <section class="past-bookings">
-          <h2>Past Bookings</h2>
-          
+          <h3>Past Bookings</h3>
+          <div id="past-bookings-list">
+            <!-- Past bookings will be dynamically inserted here -->
+          </div>
         </section>
       </div>
     </section>
-    <form id="booking-form">
+    
+      </div>
+    </section>
+    <form class="booking-form hidden" id="booking-form">
       
       <label for="booking-date">Choose a booking date:</label>
       <input type="date" id="booking-date" name="booking-date" required>
