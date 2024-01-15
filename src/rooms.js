@@ -9,3 +9,5 @@ function filterRoomsByRoomType(rooms, roomType) {
   const filteredRooms = rooms.filter(room => room.roomType === roomType);
   return filteredRooms;
 }
+
+export { findAvailableRoomsByDate, filterRoomsByRoomType }

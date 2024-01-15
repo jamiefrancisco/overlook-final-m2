@@ -52,7 +52,7 @@ describe('calculateTotalCost', () => {
     const customerId = 1;
     const customerBookings = getCustomerBookings(customerId, sampleData.bookings);
     const totalCost = calculateTotalCost(customerBookings, sampleData.rooms);
-    const expectedCost = 358.4 * 2;
+    const expectedCost = 716.80;
     expect(totalCost).to.equal(expectedCost);
   });
 
