@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Jamie's Motel</title>
 </head>
+
 <body>
   <header>
     <h1>Jamie's Motel</h1>
-    <img class= "motel-logo" src="./images/motel.png" alt="motel logo">
+    <img class="motel-logo" src="./images/motel.png" alt="motel logo">
   </header>
-  
+
   <main>
     <section class="login-page" id="login-page">
       <h2>Welcome to Jamie's Motel</h2>
@@ -35,35 +37,38 @@
       <div class="total-spent-container">
         <p id="total-spent">Total Spent: $0.00</p>
       </div>
+      <div class="success-message"> 
+        <p class="success-message hidden"></p>
+      </div>
+    
       <div class="dashboard-actions">
         <button class="book-rooms-btn">Book Rooms</button>
-        <button class="view-bookings-btn hidden">View My Bookings</button>
-        <button class="logout-btn">Log Out</button>
+        <button class="view-bookings-btn hidden">Home</button>
+        <button class="logout-btn hidden">Log Out</button>
       </div>
       <div class="bookings-container">
+        
         <section class="upcoming-bookings">
           <h3>Upcoming Bookings</h3>
           <div id="upcoming-bookings-list">
-            <!-- Upcoming bookings will be dynamically inserted here -->
           </div>
         </section>
         <section class="past-bookings">
           <h3>Past Bookings</h3>
           <div id="past-bookings-list">
-            <!-- Past bookings will be dynamically inserted here -->
           </div>
         </section>
       </div>
     </section>
-    
-      </div>
+
+    </div>
     </section>
     <form class="booking-form hidden" id="booking-form">
-      
+
       <label for="booking-date">Choose a booking date:</label>
       <input type="date" id="booking-date" name="booking-date" required>
-    
-     
+
+
       <label for="room-type">Select room type:</label>
       <select id="room-type" name="room-type" required>
         <option value="">--Please choose an option--</option>
@@ -72,34 +77,35 @@
         <option value="junior suite">Junior Suite</option>
         <option value="suite">Suite</option>
         <option value="residential suite">Residential Suite</option>
-       
+
       </select>
-    
-  
+
+
       <button type="submit">View Available Rooms</button>
     </form>
 
     <section id="view-rooms">
       <div id="available-rooms-list">
-      
+
       </div>
     </section>
-    
+
 
   </main>
 
   <footer>
-  
+
   </footer>
 
-  
-  
+
+
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  
-  
-  
-  
+
+
+
+
   <script src="bundle.js"></script>
 
 </body>
+
 </html>

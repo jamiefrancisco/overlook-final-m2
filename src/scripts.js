@@ -9,7 +9,7 @@ import './images/motel.png'
 
 import { fetchData, postNewBooking } from './apiCalls';
 import { getCustomerBookings, sortBookingsByDate, calculateTotalCost } from './customerBookings';
-import { validateUsernameAndGetId, validatePassword, login } from './login.js';
+import { login } from './login.js';
 import { findAvailableRoomsByDate, filterRoomsByRoomType } from './rooms';
 
 
@@ -25,6 +25,10 @@ const viewBookingsBtn = document.querySelector('.view-bookings-btn')
 const logOutBtn = document.querySelector('.logout-btn')
 const bookingForm = document.querySelector('.booking-form');
 const bookingsContainer = document.querySelector('.bookings-container');
+const totalSpentContainer = document.querySelector('.total-spent-container');
+const availableRoomsList = document.getElementById('available-rooms-list');
+const successMessage = document.querySelector('.success-message');
+
 
 
 // Global Variables
@@ -60,13 +64,21 @@ loginForm.addEventListener('submit', (event) => {
   const password = document.getElementById('password-input').value;
 
   handleLogin(username, password);
+  show(logOutBtn);
+  show(bookRoomsBtn);
+  show(bookingsContainer);
+  show(totalSpentContainer);
+
 });
 
 bookRoomsBtn.addEventListener('click', () => {
-  bookingForm.classList.toggle('hidden');
-  bookingsContainer.classList.add('hidden');
-  bookRoomsBtn.classList.add('hidden');
-  viewBookingsBtn.classList.remove('hidden');
+  show(bookingForm);
+  hide(bookingsContainer);
+  hide(bookRoomsBtn);
+  show(viewBookingsBtn);
+  hide(availableRoomsList);
+  hide(successMessage);
+  hide(totalSpentContainer);
 });
 
 viewBookingsBtn.addEventListener('click', () => {
@@ -74,15 +86,20 @@ viewBookingsBtn.addEventListener('click', () => {
   show(bookingsContainer);
   show(bookRoomsBtn)
   hide(viewBookingsBtn);
+  hide(successMessage);
+  show(totalSpentContainer);
 
 });
 
 logOutBtn.addEventListener('click', () => {
-  bookingForm.classList.add('hidden');
-  bookingsContainer.classList.add('hidden');
-  bookRoomsBtn.classList.add('hidden');
-  viewBookingsBtn.classList.add('hidden');
-  loginPage.classList.remove('hidden');
+  hide(bookingForm);
+  hide(bookingsContainer);
+  hide(bookRoomsBtn);
+  hide(viewBookingsBtn);
+  hide(totalSpentContainer);
+  show(loginPage);
+  hide(logOutBtn);
+  hide(successMessage);
 });
 
 bookingForm.addEventListener('submit', (event) => {
@@ -98,7 +115,9 @@ bookingForm.addEventListener('submit', (event) => {
   }
 
   displayAvailableRooms(availableRooms, selectedDate);
+  show(availableRoomsList);
 });
+
 
 // Event Handlers 
 
@@ -139,7 +158,6 @@ function displayCustomerBookings(customerBookings) {
 }
 
 function displayAvailableRooms(availableRooms, selectedDate) {
-  const availableRoomsList = document.getElementById('available-rooms-list');
   availableRoomsList.innerHTML = '';
 
   if (availableRooms.length === 0) {
@@ -148,35 +166,57 @@ function displayAvailableRooms(availableRooms, selectedDate) {
   }
 
   availableRooms.forEach(room => {
+
     const roomElement = document.createElement('div');
     roomElement.classList.add('room');
     roomElement.innerHTML = `
-      <h4>Room Number: ${room.number}</h4>
-      <p>Room Type: ${room.roomType}</p>
-      <p>Price: $${room.costPerNight.toFixed(2)}</p>
-      <button type="button" class="book-room-btn">Book Room</button>
+      <h4>Room ${room.number}</h4>
+      <p>Type: ${room.roomType}</p>
+      <p>Bed Size: ${room.bedSize}</p>
+      <p>Number of Beds: ${room.numBeds}</p>
+      <p>Cost per Night: $${room.costPerNight.toFixed(2)}</p>
+      <button class="book-room-btn">Book Room</button>
     `;
 
+   
     availableRoomsList.appendChild(roomElement);
 
+   
     const bookButton = roomElement.querySelector('.book-room-btn');
     bookButton.addEventListener('click', () => {
       postNewBooking(currentCustomer.id, selectedDate, room.number)
-        .then(newBookingData => {
-          bookingsData.push(newBookingData);
-
+        .then(response => {
+          // Assuming the server responds with the new booking object
+          const newBooking = response.newBooking;
+    
+          // Update the global bookingsData array with the new booking
+          bookingsData.push(newBooking);
+    
+          // Refresh the UI based on the new data
           const customerBookings = getCustomerBookings(currentCustomer.id, bookingsData);
           displayCustomerBookings(customerBookings);
-
           const totalSpent = calculateTotalCost(customerBookings, roomsData);
           displayTotalSpent(totalSpent);
+    
+          // Hide the list of available rooms
+          hide(availableRoomsList);
+          show(bookRoomsBtn);
+          hide(bookingForm);
+    
+          // Display success message
+          successMessage.textContent = `You have successfully booked room ${room.number} on ${selectedDate}.`;
+          show(successMessage);
         })
         .catch(error => {
-          console.error('Error updating bookings after new booking:', error);
+          console.error('Error booking room:', error);
         });
     });
   });
 }
+
+
+
+
 
 
 function handleLogin(username, password) {
@@ -211,4 +251,8 @@ function show(element) {
 
 function hide(element) {
   element.classList.add('hidden');
+}
+
+function toggle(element) {
+  element.classList.toggle('hidden');
 }

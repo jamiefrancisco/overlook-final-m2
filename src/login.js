@@ -19,15 +19,11 @@ function login(customersData, username, password) {
   }
 
   const customer = customersData.find(customer => customer.id === customerId);
-  if (!customer) {
-    return { success: false, message: 'No such customer.' };
-  }
-
-  if (validatePassword(password)) {
-    return { success: true, customer };
-  } else {
+  if (!customer || !validatePassword(password)) {
     return { success: false, message: 'Incorrect username or password.' };
   }
+
+  return { success: true, customer };
 }
 
 
