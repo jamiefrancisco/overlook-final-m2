@@ -1,10 +1,6 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
+// Imports 
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/motel.png'
 
 import { fetchData, postNewBooking } from './apiCalls';
@@ -30,14 +26,12 @@ const availableRoomsList = document.getElementById('available-rooms-list');
 const successMessage = document.querySelector('.success-message');
 
 
-
 // Global Variables
 
 let customersData, bookingsData, roomsData;
 let currentCustomer;
 
 // Event Listeners
-
 
 window.addEventListener('load', () => {
   Promise.all([
@@ -56,6 +50,22 @@ window.addEventListener('load', () => {
     });
 });
 
+
+bookingForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const selectedDate = document.getElementById('booking-date').value;
+  const selectedRoomType = document.getElementById('room-type').value;
+
+  let availableRooms = findAvailableRoomsByDate(selectedDate, bookingsData, roomsData);
+
+  if (selectedRoomType !== 'any') {
+    availableRooms = filterRoomsByRoomType(availableRooms, selectedRoomType);
+  }
+
+  displayAvailableRooms(availableRooms, selectedDate);
+  show(availableRoomsList);
+});
 
 loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -100,22 +110,8 @@ logOutBtn.addEventListener('click', () => {
   show(loginPage);
   hide(logOutBtn);
   hide(successMessage);
-});
-
-bookingForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const selectedDate = document.getElementById('booking-date').value;
-  const selectedRoomType = document.getElementById('room-type').value;
-
-  let availableRooms = findAvailableRoomsByDate(selectedDate, bookingsData, roomsData);
-
-  if (selectedRoomType !== 'any') {
-    availableRooms = filterRoomsByRoomType(availableRooms, selectedRoomType);
-  }
-
-  displayAvailableRooms(availableRooms, selectedDate);
-  show(availableRoomsList);
+  hide(availableRoomsList);
+  clearLoginForm();
 });
 
 
@@ -161,7 +157,7 @@ function displayAvailableRooms(availableRooms, selectedDate) {
   availableRoomsList.innerHTML = '';
 
   if (availableRooms.length === 0) {
-    availableRoomsList.innerHTML = '<p>No rooms available for the selected date and type.</p>';
+    availableRoomsList.innerHTML = '<p class="centered-message">No rooms available for the selected date and type.</p>';
     return;
   }
 
@@ -178,32 +174,25 @@ function displayAvailableRooms(availableRooms, selectedDate) {
       <button class="book-room-btn">Book Room</button>
     `;
 
-   
+
     availableRoomsList.appendChild(roomElement);
 
-   
+
     const bookButton = roomElement.querySelector('.book-room-btn');
     bookButton.addEventListener('click', () => {
       postNewBooking(currentCustomer.id, selectedDate, room.number)
         .then(response => {
-          // Assuming the server responds with the new booking object
           const newBooking = response.newBooking;
-    
-          // Update the global bookingsData array with the new booking
           bookingsData.push(newBooking);
-    
-          // Refresh the UI based on the new data
           const customerBookings = getCustomerBookings(currentCustomer.id, bookingsData);
           displayCustomerBookings(customerBookings);
           const totalSpent = calculateTotalCost(customerBookings, roomsData);
           displayTotalSpent(totalSpent);
-    
-          // Hide the list of available rooms
+
           hide(availableRoomsList);
           show(bookRoomsBtn);
           hide(bookingForm);
-    
-          // Display success message
+
           successMessage.textContent = `You have successfully booked room ${room.number} on ${selectedDate}.`;
           show(successMessage);
         })
@@ -214,35 +203,38 @@ function displayAvailableRooms(availableRooms, selectedDate) {
   });
 }
 
-
-
-
-
-
 function handleLogin(username, password) {
+  loginErrorMessage.textContent = '';
+  hide(loginErrorMessage);
+
   const loginResult = login(customersData, username, password);
   if (loginResult.success) {
-    loginPage.classList.add('hidden');
-    userDashboard.classList.remove('hidden');
+    hide(loginPage);
+    show(userDashboard);
 
     currentCustomer = loginResult.customer;
     const customerBookings = getCustomerBookings(currentCustomer.id, bookingsData);
     displayCustomerBookings(customerBookings);
 
-
     const totalSpent = calculateTotalCost(customerBookings, roomsData);
     displayTotalSpent(totalSpent);
   } else {
     loginErrorMessage.textContent = loginResult.message;
-    loginErrorMessage.classList.remove('hidden');
+    show(loginErrorMessage);
     loginPage.appendChild(loginErrorMessage);
   }
 }
 
-
 function displayTotalSpent(totalSpent) {
   const totalSpentElement = document.getElementById('total-spent');
   totalSpentElement.textContent = `Total Spent: $${totalSpent.toFixed(2)}`;
+}
+
+// Helper Functions
+
+function clearLoginForm() {
+  const loginForm = document.getElementById('login-form');
+  loginForm.reset();
 }
 
 function show(element) {
@@ -251,8 +243,4 @@ function show(element) {
 
 function hide(element) {
   element.classList.add('hidden');
-}
-
-function toggle(element) {
-  element.classList.toggle('hidden');
 }

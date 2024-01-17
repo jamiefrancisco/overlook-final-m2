@@ -17,15 +17,11 @@ function login(customersData, username, password) {
   if (customerId === null) {
     return { success: false, message: 'Incorrect username or password.' };
   }
-
   const customer = customersData.find(customer => customer.id === customerId);
   if (!customer || !validatePassword(password)) {
     return { success: false, message: 'Incorrect username or password.' };
   }
-
   return { success: true, customer };
 }
-
-
 
 export { validateUsernameAndGetId, validatePassword, login }
