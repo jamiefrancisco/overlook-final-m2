@@ -1,90 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <title>Overlook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <title>Jamie's Motel</title>
 </head>
+
 <body>
   <header>
     <h1>Jamie's Motel</h1>
-    <img class= "motel-logo" src="./images/motel.png" alt="motel logo">
+    <img class="motel-logo" src="./images/motel.png" alt="motel logo">
   </header>
-  
+
   <main>
     <section class="login-page" id="login-page">
       <h2>Welcome to Jamie's Motel</h2>
       <h3>Please log-in below</h3>
       <form id="login-form" class="login-form">
         <div class="form-group">
-          <label for="username-input">Username:</label>
+          <label for="username-input"></label>
           <input type="text" id="username-input" name="username" placeholder="Enter your username" required>
         </div>
         <div class="form-group">
-          <label for="password-input">Password:</label>
+          <label for="password-input"></label>
           <input type="password" id="password-input" name="password" placeholder="Enter your password" required>
         </div>
         <button type="submit" class="login-btn">Log In</button>
       </form>
     </section>
 
-    <section class="user-dashboard">
-      <h2>Total Spent</h2>
-      <div class="dashboard-actions">
-        <button class="search-rooms-btn">Search for More Rooms</button>
-        <button class="logout-btn">Log Out</button>
+    <section class="user-dashboard hidden">
+      <div class="success-message hidden">
+        <p class="success-message-text"></p>
+      </div>
+      <div class="dashboard-controls">
+        <div class="dashboard-actions">
+          <button class="book-rooms-btn">Book Rooms</button>
+          <button class="view-bookings-btn hidden">Home</button>
+          <button class="logout-btn hidden">Log Out</button>
+        </div>
+        <form class="booking-form hidden" id="booking-form">
+          <label for="booking-date">Choose a booking date:</label>
+          <input type="date" id="booking-date" name="booking-date" required>
+          <label for="room-type">Select room type:</label>
+          <select id="room-type" name="room-type" required>
+            <option value="">--Please choose an option--</option>
+            <option value="any">Any</option>
+            <option value="single room">Single Room</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="suite">Suite</option>
+            <option value="residential suite">Residential Suite</option>
+          </select>
+          <button type="submit">View Available Rooms</button>
+        </form>
       </div>
       <div class="bookings-container">
+        <div class="total-spent-container">
+          <p id="total-spent">Total Spent: $0.00</p>
+        </div>
         <section class="upcoming-bookings">
-          <h2>Upcoming Bookings</h2>
-        
+          <h3>Upcoming Bookings</h3>
+          <div id="upcoming-bookings-list"></div>
         </section>
         <section class="past-bookings">
-          <h2>Past Bookings</h2>
-          
+          <h3>Past Bookings</h3>
+          <div id="past-bookings-list"></div>
         </section>
       </div>
     </section>
-    <form id="booking-form">
-      
-      <label for="booking-date">Choose a booking date:</label>
-      <input type="date" id="booking-date" name="booking-date" required>
-    
-     
-      <label for="room-type">Select room type:</label>
-      <select id="room-type" name="room-type" required>
-        <option value="">--Please choose an option--</option>
-        <option value="any">Any</option>
-        <option value="single room">Single Room</option>
-        <option value="junior suite">Junior Suite</option>
-        <option value="suite">Suite</option>
-        <option value="residential suite">Residential Suite</option>
-       
-      </select>
-    
-  
-      <button type="submit">View Available Rooms</button>
-    </form>
-    
 
+    <section id="view-rooms">
+      <div id="available-rooms-list"></div>
+    </section>
   </main>
 
   <footer>
-  
   </footer>
 
-  
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  
-  
-  
-  
   <script src="bundle.js"></script>
-
 </body>
+
 </html>
