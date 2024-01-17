@@ -38,7 +38,7 @@ describe('login', () => {
 
   it('should return failure message for non-existent customer', () => {
     const result = login(sampleData.customers, 'customer51', 'overlook2021');
-    expect(result).to.deep.equal({ success: false, message: 'No such customer.' });
+    expect(result).to.deep.equal({ success: false, message: 'Incorrect username or password.' });
   });
   
 
@@ -49,6 +49,6 @@ describe('login', () => {
 
   it('should return failure message for non-existent customer', () => {
     const result = login(sampleData.customers, 'customer51', 'overlook2021');
-    expect(result).to.deep.equal({ success: false, message: 'No such customer.' });
+    expect(result).to.deep.equal({ success: false, message: 'Incorrect username or password.' });
   });  
 });

@@ -43,13 +43,24 @@ window.addEventListener('load', () => {
       customersData = customersResponse.customers;
       bookingsData = bookingsResponse.bookings;
       roomsData = roomsResponse.rooms;
-      console.log(customersData, bookingsData, roomsData);
     })
     .catch(error => {
       console.error('Error fetching data:', error);
     });
 });
 
+loginForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const username = document.getElementById('username-input').value;
+  const password = document.getElementById('password-input').value;
+
+  handleLogin(username, password);
+  show(logOutBtn);
+  show(bookRoomsBtn);
+  show(bookingsContainer);
+  show(totalSpentContainer);
+});
 
 bookingForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -65,20 +76,6 @@ bookingForm.addEventListener('submit', (event) => {
 
   displayAvailableRooms(availableRooms, selectedDate);
   show(availableRoomsList);
-});
-
-loginForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const username = document.getElementById('username-input').value;
-  const password = document.getElementById('password-input').value;
-
-  handleLogin(username, password);
-  show(logOutBtn);
-  show(bookRoomsBtn);
-  show(bookingsContainer);
-  show(totalSpentContainer);
-
 });
 
 bookRoomsBtn.addEventListener('click', () => {
